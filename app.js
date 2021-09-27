@@ -4,6 +4,7 @@ if(process.env.Node_ENV !=="production"){
 const dotenv = require("dotenv");
 
 dotenv.config();
+const port=process.env.PORT || 3000;
 var express=require("express")
 var bodyPaser=require("body-parser")
 var mongoose=require("mongoose");
@@ -113,7 +114,7 @@ app.post("/login",(req,res)=>{
 app.get("/welcome",(req,res)=>{
     res.render("welcome")
 })
-const port=process.env.port || 3000;
+
 app.get("/",(req,res)=>{
     res.set({
         "Allow-access-Allow-Origin":"*"
