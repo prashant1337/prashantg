@@ -7,44 +7,15 @@ dotenv.config();
 var express=require("express")
 var bodyPaser=require("body-parser")
 var mongoose=require("mongoose");
-const { collection } = require("../models/contact");
+// const { collection } = require("../models/contact");
 const app=express()
 app.use(bodyPaser.json())
 app.use(bodyPaser.urlencoded({
     extended:true
 }))
-const session=require('express-session');
-const MongoDBStore=require('connect-mongo').default;
-// app.use(session({
-//     secret:"foo",
-//     store:new MongoDBStore("option")
-// }));
-const store=new MongoDBStore({
-    url:"mongodb+srv://website-data:cVBVHukMrrnHUp2Y@cluster0.4og2g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    secret:"thisshouldbeabettersecret",
-    TouchAfter:24*60*60
-});
-store.on("error",function(e){
-    console.log("session store error")
-})
-const sessionConfig={
-    store,
-    name:"session",
-    secret:"thisshouldbeabettersecret",
-    resave:false,
-    saveUninitialized:true,
-    cookie:{
-        httpOnly:true,
-        expires:Date.now()+1000*60*60*24*7,
-        maxAge:100*60*60*24*7
 
-    }
 
-}
-app.use(session(sessionConfig));
-app.use(flash());
-
-const dbUrl=process.env.DB_URL
+// const dbUrl=process.env.DB_URL example
 mongoose.connect("mongodb+srv://website-data:cVBVHukMrrnHUp2Y@cluster0.4og2g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -142,11 +113,12 @@ app.post("/login",(req,res)=>{
 app.get("/welcome",(req,res)=>{
     res.render("welcome")
 })
+const port=process.env.port || 3000;
 app.get("/",(req,res)=>{
     res.set({
         "Allow-access-Allow-Origin":"*"
     })
     return res.redirect('index');
 
-}).listen(3000);
+}).listen(port);
 console.log("listening on port on 3000")
